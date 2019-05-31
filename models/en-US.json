@@ -1,27 +1,94 @@
 {
   "interactionModel": {
-    "languageModel": {
-      "invocationName": "hello world",
-      "intents": [
-        {
-          "name": "AMAZON.CancelIntent",
-          "samples": []
-        },
-        {
-          "name": "AMAZON.HelpIntent",
-          "samples": []
-        },
-        {
-          "name": "AMAZON.StopIntent",
-          "samples": []
-        },
-        {
-          "name": "HelloWorldIntent",
-          "samples": [
-            "hello"
-          ]
-        }
+      "languageModel": {
+          "invocationName": "lost playground",
+          "intents": [
+              {
+                  "name": "AMAZON.CancelIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.HelpIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.StopIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.NavigateHomeIntent",
+                  "samples": []
+              },
+              {
+                  "name": "ConvertCurrencyIntent",
+                  "slots": [
+                      {
+                          "name": "country",
+                          "type": "AMAZON.Country",
+                          "samples": [
+                              "united states",
+                              "europe",
+                              "china",
+                              "indonesia",
+                              "india"
+                          ]
+                      },
+                      {
+                          "name": "baseCountry",
+                          "type": "AMAZON.Country"
+                      }
+                  ],
+                  "samples": [
+                      "what is the value of {baseCountry} in {country}",
+                      "what is one {baseCountry} in {country}",
+                      "what is the value of {country} currency",
+                      "what is the value of {country}",
+                      "how much is {country} currency",
+                      "{baseCountry} to {country}",
+                      "convert {baseCountry} to {country}"
+                  ]
+              }
+          ],
+          "types": []
+      },
+      "dialog": {
+          "intents": [
+              {
+                  "name": "ConvertCurrencyIntent",
+                  "confirmationRequired": false,
+                  "prompts": {},
+                  "slots": [
+                      {
+                          "name": "country",
+                          "type": "AMAZON.Country",
+                          "confirmationRequired": false,
+                          "elicitationRequired": true,
+                          "prompts": {
+                              "elicitation": "Elicit.Slot.265446546365.755906910515"
+                          }
+                      },
+                      {
+                          "name": "baseCountry",
+                          "type": "AMAZON.Country",
+                          "confirmationRequired": false,
+                          "elicitationRequired": false,
+                          "prompts": {}
+                      }
+                  ]
+              }
+          ],
+          "delegationStrategy": "ALWAYS"
+      },
+      "prompts": [
+          {
+              "id": "Elicit.Slot.265446546365.755906910515",
+              "variations": [
+                  {
+                      "type": "PlainText",
+                      "value": "what is the country?"
+                  }
+              ]
+          }
       ]
-    }
   }
 }

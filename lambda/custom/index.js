@@ -2,33 +2,51 @@
 /* eslint-disable  no-console */
 
 const Alexa = require('ask-sdk-core');
+const fetch = require('node-fetch');
+const currencyList = require('./CountriesAndCurrencies.json');
 
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
   },
   handle(handlerInput) {
-    const speechText = 'Welcome to the Alexa Skills Kit, you can say hello!';
+    const speechText = 'Welcome to the playground, you can say hello!';
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
-      .withSimpleCard('Hello World', speechText)
       .getResponse();
   },
 };
 
-const HelloWorldIntentHandler = {
+const ConvertCurrencyIntentHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'HelloWorldIntent';
+      && handlerInput.requestEnvelope.request.intent.name === 'ConvertCurrencyIntent';
   },
-  handle(handlerInput) {
-    const speechText = 'Hello World!';
-
+  async handle(handlerInput) {
+    let speechText = 'Hello World!';
+    const repromptText = 'I didn\'t quite catch you';
+    const country = handlerInput.requestEnvelope.request.intent.slots.country.value.toUpperCase();
+    let baseCountry = handlerInput.requestEnvelope.request.intent.slots.baseCountry.value || 'UNITED STATES';
+    let path;
+    baseCountry = baseCountry.toUpperCase();
+    path = 'base=' + currencyList[baseCountry].code + '&symbols=' + currencyList[country].code;
+    console.log('Path : ' + path);
+    await fetch('https://api.exchangeratesapi.io/latest?' + path)
+      .then(res => res.json())
+      .then(data => {
+        speechText = 'one ' + data.base + ' is ' + data.rates[currencyList[country].code] + ' ' + currencyList[country].currency;
+        console.log('Path: ' + path);
+        console.log('Data received: ' + data);
+      })
+      .catch(err => {
+        speechText = 'Eror occured!';
+        console.log('Error: ' + err);
+      })
     return handlerInput.responseBuilder
       .speak(speechText)
-      .withSimpleCard('Hello World', speechText)
+      .reprompt(repromptText)
       .getResponse();
   },
 };
@@ -44,7 +62,6 @@ const HelpIntentHandler = {
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
-      .withSimpleCard('Hello World', speechText)
       .getResponse();
   },
 };
@@ -60,7 +77,6 @@ const CancelAndStopIntentHandler = {
 
     return handlerInput.responseBuilder
       .speak(speechText)
-      .withSimpleCard('Hello World', speechText)
       .getResponse();
   },
 };
@@ -95,7 +111,7 @@ const skillBuilder = Alexa.SkillBuilders.custom();
 exports.handler = skillBuilder
   .addRequestHandlers(
     LaunchRequestHandler,
-    HelloWorldIntentHandler,
+    ConvertCurrencyIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler

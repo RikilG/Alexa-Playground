@@ -1,9 +1,33 @@
 {
   "deploy_settings": {
     "default": {
-      "skill_id": "",
+      "skill_id": "amzn1.ask.skill.2747b148-b672-42c3-b3b8-b6b96684e8de",
       "was_cloned": false,
-      "merge": {}
+      "merge": {},
+      "resources": {
+        "manifest": {
+          "eTag": "39e8eb38b3bc23bd27d01c75cbf0cbe5"
+        },
+        "interactionModel": {
+          "en-US": {
+            "eTag": "65b71f41d94f3766006b1c7bfae4872f"
+          }
+        },
+        "lambda": [
+          {
+            "alexaUsage": [
+              "custom/default"
+            ],
+            "arn": "arn:aws:lambda:us-east-1:529604744113:function:lost-playground",
+            "awsRegion": "us-east-1",
+            "codeUri": "lambda/custom",
+            "functionName": "lost-playground",
+            "handler": "index.handler",
+            "revisionId": "a647e960-ff4f-4666-8eaf-5deb6286da87",
+            "runtime": "nodejs8.10"
+          }
+        ]
+      }
     }
   }
 }
