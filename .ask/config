@@ -10,7 +10,7 @@
         },
         "interactionModel": {
           "en-US": {
-            "eTag": "65b71f41d94f3766006b1c7bfae4872f"
+            "eTag": "e4819300e7a20d683b42ac8ca64b1ae2"
           }
         },
         "lambda": [
@@ -23,7 +23,7 @@
             "codeUri": "lambda/custom",
             "functionName": "lost-playground",
             "handler": "index.handler",
-            "revisionId": "a647e960-ff4f-4666-8eaf-5deb6286da87",
+            "revisionId": "b634e5ec-005d-4509-92ce-94705758b57e",
             "runtime": "nodejs8.10"
           }
         ]

@@ -27,22 +27,97 @@ const ConvertCurrencyIntentHandler = {
   async handle(handlerInput) {
     let speechText = 'Hello World!';
     const repromptText = 'I didn\'t quite catch you';
-    const country = handlerInput.requestEnvelope.request.intent.slots.country.value.toUpperCase();
+    let country = handlerInput.requestEnvelope.request.intent.slots.country.value.toUpperCase();
     let baseCountry = handlerInput.requestEnvelope.request.intent.slots.baseCountry.value || 'UNITED STATES';
     let path;
     baseCountry = baseCountry.toUpperCase();
-    path = 'base=' + currencyList[baseCountry].code + '&symbols=' + currencyList[country].code;
+    if(baseCountry.length != 3) baseCountry = currencyList[baseCountry].code
+    if(country.length != 3) country = currencyList[country].code
+    path = 'base=' + baseCountry + '&symbols=' + country;
     console.log('Path : ' + path);
     await fetch('https://api.exchangeratesapi.io/latest?' + path)
       .then(res => res.json())
       .then(data => {
-        speechText = 'one ' + data.base + ' is ' + data.rates[currencyList[country].code] + ' ' + currencyList[country].currency;
+        speechText = 'one ' + data.base + ' is ' + data.rates[country] + ' ' + country;
         console.log('Path: ' + path);
         console.log('Data received: ' + data);
       })
       .catch(err => {
         speechText = 'Eror occured!';
         console.log('Error: ' + err);
+      })
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .reprompt(repromptText)
+      .getResponse();
+  },
+};
+
+const FindWeatherIntentHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'FindWeatherIntent';
+  },
+  async handle(handlerInput) {
+    let speechText = 'Find Weather intent invoked';
+    const repromptText = 'I didn\'t quite catch you';
+    let city = handlerInput.requestEnvelope.request.intent.slots.city.value;
+    let date = handlerInput.requestEnvelope.request.intent.slots.date.value || '';
+    if(date != '') {
+      date = date.split('T')[0].replace(/-/g,'/');
+    }
+    let woeid; //where-on-earth-id
+    let the_temp;
+    await fetch('https://www.metaweather.com/api/location/search/?query=' + city)
+      .then(res => res.json())
+      .then(data => {
+        woeid = data[0].woeid;
+      })
+      .catch(err => {
+        speechText = 'Error occured!';
+        console.log('Error: ' + err);
+      })
+    await fetch('https://www.metaweather.com/api/location/' + woeid + '/' + date)
+      .then(res => res.json())
+      .then(data => {
+        if(date === '') {
+          the_temp = parseFloat(data.consolidated_weather[0].the_temp).toFixed(2).toString();
+          speechText = 'Current temperature is ' + the_temp + ' degrees';
+        }
+        else {
+          the_temp = parseFloat(data[0].the_temp).toFixed(2).toString();
+          let min = parseFloat(data[0].min_temp).toFixed(2).toString();
+          let max = parseFloat(data[0].max_temp).toFixed(2).toString();
+          speechText = 'Temperature will be ' + the_temp + ' degrees with minimum ' + min + ' degrees and maximum ' + max + ' degrees';
+        }
+      })
+      .catch(err => {
+        speechText = 'Error occured!';
+        console.log('Error: ' + err);
+      })
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .reprompt(repromptText)
+      .getResponse();
+  },
+};
+
+const RandomFactIntentHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+      && handlerInput.requestEnvelope.request.intent.name === 'RandomFactIntent';
+  },
+  async handle(handlerInput) {
+    let speechText = 'Hello World!';
+    const repromptText = 'I didn\'t quite catch you';
+    await fetch('https://randomuselessfact.appspot.com/random.json')
+      .then(res => res.json())
+      .then(data => {
+        speechText = data.text;
+      })
+      .catch(err => {
+        console.log('Error: '+err);
+        speechText = 'Service error! Please try again later';
       })
     return handlerInput.responseBuilder
       .speak(speechText)
@@ -112,6 +187,8 @@ exports.handler = skillBuilder
   .addRequestHandlers(
     LaunchRequestHandler,
     ConvertCurrencyIntentHandler,
+    RandomFactIntentHandler,
+    FindWeatherIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler

@@ -1,94 +1,281 @@
 {
-  "interactionModel": {
-      "languageModel": {
-          "invocationName": "lost playground",
-          "intents": [
-              {
-                  "name": "AMAZON.CancelIntent",
-                  "samples": []
-              },
-              {
-                  "name": "AMAZON.HelpIntent",
-                  "samples": []
-              },
-              {
-                  "name": "AMAZON.StopIntent",
-                  "samples": []
-              },
-              {
-                  "name": "AMAZON.NavigateHomeIntent",
-                  "samples": []
-              },
-              {
-                  "name": "ConvertCurrencyIntent",
-                  "slots": [
-                      {
-                          "name": "country",
-                          "type": "AMAZON.Country",
-                          "samples": [
-                              "united states",
-                              "europe",
-                              "china",
-                              "indonesia",
-                              "india"
-                          ]
-                      },
-                      {
-                          "name": "baseCountry",
-                          "type": "AMAZON.Country"
-                      }
-                  ],
-                  "samples": [
-                      "what is the value of {baseCountry} in {country}",
-                      "what is one {baseCountry} in {country}",
-                      "what is the value of {country} currency",
-                      "what is the value of {country}",
-                      "how much is {country} currency",
-                      "{baseCountry} to {country}",
-                      "convert {baseCountry} to {country}"
-                  ]
-              }
-          ],
-          "types": []
-      },
-      "dialog": {
-          "intents": [
-              {
-                  "name": "ConvertCurrencyIntent",
-                  "confirmationRequired": false,
-                  "prompts": {},
-                  "slots": [
-                      {
-                          "name": "country",
-                          "type": "AMAZON.Country",
-                          "confirmationRequired": false,
-                          "elicitationRequired": true,
-                          "prompts": {
-                              "elicitation": "Elicit.Slot.265446546365.755906910515"
-                          }
-                      },
-                      {
-                          "name": "baseCountry",
-                          "type": "AMAZON.Country",
-                          "confirmationRequired": false,
-                          "elicitationRequired": false,
-                          "prompts": {}
-                      }
-                  ]
-              }
-          ],
-          "delegationStrategy": "ALWAYS"
-      },
-      "prompts": [
-          {
-              "id": "Elicit.Slot.265446546365.755906910515",
-              "variations": [
-                  {
-                      "type": "PlainText",
-                      "value": "what is the country?"
-                  }
-              ]
-          }
-      ]
-  }
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "lost playground",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "ConvertCurrencyIntent",
+                    "slots": [
+                        {
+                            "name": "country",
+                            "type": "AMAZON.Country",
+                            "samples": [
+                                "JPY",
+                                "CAD",
+                                "USD",
+                                "AUS",
+                                "EUR",
+                                "INR",
+                                "united states",
+                                "europe",
+                                "china",
+                                "indonesia",
+                                "india"
+                            ]
+                        },
+                        {
+                            "name": "baseCountry",
+                            "type": "AMAZON.Country"
+                        }
+                    ],
+                    "samples": [
+                        "what is the value of {baseCountry} in {country}",
+                        "what is one {baseCountry} in {country}",
+                        "what is the value of {country} currency",
+                        "what is the value of {country}",
+                        "how much is {country} currency",
+                        "{baseCountry} to {country}",
+                        "convert {baseCountry} to {country}"
+                    ]
+                },
+                {
+                    "name": "FindWeatherIntent",
+                    "slots": [
+                        {
+                            "name": "city",
+                            "type": "AMAZON.City",
+                            "samples": [
+                                "Bangalore"
+                            ]
+                        },
+                        {
+                            "name": "date",
+                            "type": "AMAZON.DATE"
+                        }
+                    ],
+                    "samples": [
+                        "weather in {city} on {date}",
+                        "weather in {city} {date}",
+                        "what is the weather {date}",
+                        "what's the weather in {city} {date}",
+                        "what is the weather in {city} {date}",
+                        "tell me the weather in {city} {date}",
+                        "what is the weather in {city} on {date}",
+                        "what's the weather in {city} on {date}",
+                        "what's the weather in {city}",
+                        "what is the weather in {city}",
+                        "weather in {city}",
+                        "weather now",
+                        "what is the weather"
+                    ]
+                },
+                {
+                    "name": "RandomFactIntent",
+                    "slots": [],
+                    "samples": [
+                        "tell me something i don't know",
+                        "enlighten me",
+                        "i'm in need of a fact",
+                        "i want a fact",
+                        "get me a fact ",
+                        "tell me a fact",
+                        "tell me something",
+                        "tell a random fact",
+                        "give me a random fact",
+                        "generate a random fact",
+                        "I want a random fact"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "AMAZON.Country",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "JPY"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "CAD"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "AUS"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "EUR"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "INR"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "USD"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "AMAZON.City",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "Hong Kong"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Dhaka"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Seoul"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Melbourne"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Calcutta"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Shanghai"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Tokyo"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "London"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Hyderabad"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Boston"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "New Delhi"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "New York"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "ConvertCurrencyIntent",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "country",
+                            "type": "AMAZON.Country",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.265446546365.755906910515"
+                            }
+                        },
+                        {
+                            "name": "baseCountry",
+                            "type": "AMAZON.Country",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "FindWeatherIntent",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "city",
+                            "type": "AMAZON.City",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1461371979588.97204678369"
+                            }
+                        },
+                        {
+                            "name": "date",
+                            "type": "AMAZON.DATE",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ],
+            "delegationStrategy": "ALWAYS"
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Slot.265446546365.755906910515",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "what is the country?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1461371979588.97204678369",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What city are you in?"
+                    }
+                ]
+            }
+        ]
+    }
 }
