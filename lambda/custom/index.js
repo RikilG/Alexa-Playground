@@ -162,8 +162,10 @@ const SessionEndedRequestHandler = {
   },
   handle(handlerInput) {
     console.log(`Session ended with reason: ${handlerInput.requestEnvelope.request.reason}`);
-
-    return handlerInput.responseBuilder.getResponse();
+    const speechText = "See you again!";
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .getResponse();
   },
 };
 
